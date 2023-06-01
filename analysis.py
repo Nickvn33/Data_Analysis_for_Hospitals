@@ -5,6 +5,12 @@ general_df = pd.read_csv('test/general.csv')
 prenatal_df = pd.read_csv('test/prenatal.csv')
 sports_df = pd.read_csv('test/sports.csv')
 
-print(general_df.head(20))
-print(prenatal_df.head(20))
-print(sports_df.head(20))
+prenatal_df.rename(columns={'HOSPITAL': 'hospital',
+                            'Sex': 'gender'}, inplace=True)
+sports_df.rename(columns={'Hospital': 'hospital',
+                          'Male/female': 'gender'}, inplace=True)
+
+hospital_df = pd.concat([general_df, prenatal_df, sports_df], ignore_index=True)
+hospital_df.drop(columns='Unnamed: 0', inplace=True)
+pd.set_option('display.max_columns', 8)
+print(pd.DataFrame.sample(hospital_df, n=20, random_state=30))
